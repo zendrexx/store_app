@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:store_app/global_variables.dart';
 import 'package:store_app/models/users.dart';
@@ -6,7 +8,7 @@ import 'package:store_app/services/manage_http_response.dart';
 
 class AuthController {
   Future<void> signUpUsers({
-    required BuildContext context,
+    required context,
     required String email,
     required String fullName,
     required String password,
@@ -38,8 +40,35 @@ class AuthController {
         },
       );
     } catch (e) {
-      //Handle any errors that occur during the request
-      showSnackBar(context, 'Error: $e');
+      print("Error: $e");
+    }
+  }
+
+  //sign in users function
+  Future<void> signInUsers({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$uri/api/signin'),
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }), //convert the user object to a json string
+        headers: <String, String>{
+          "Content-Type": 'application/json; charset=UTF-8',
+        },
+      );
+
+      manageHttpResponse(
+        response: response,
+        context: context,
+        onSuccess: () {},
+      );
+    } catch (e) {
+      print("Error: $e");
     }
   }
 }
