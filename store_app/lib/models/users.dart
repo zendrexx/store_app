@@ -23,7 +23,7 @@ class User {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      "id": id,
       'fullName': fullName,
       'email': email,
       'state': state,
@@ -46,13 +46,13 @@ class User {
   // usually form a json object and if fields is empty it defaults to an empty String
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['_id'] as String? ?? '',
-      fullName: map['fullName'] as String? ?? '',
-      email: map['email'] as String? ?? '',
-      state: map['state'] as String? ?? '',
-      city: map['city'] as String? ?? '',
-      locality: map['locality'] as String? ?? '',
-      password: map['password'] as String? ?? '',
+      id: map['_id'] as String? ?? "",
+      fullName: map['fullName'] as String? ?? "",
+      email: map['email'] as String? ?? "",
+      state: map['state'] as String? ?? "",
+      city: map['city'] as String? ?? "",
+      locality: map['locality'] as String? ?? "",
+      password: map['password'] as String? ?? "",
     );
   }
 
