@@ -5,6 +5,8 @@ import 'package:store_app/global_variables.dart';
 import 'package:store_app/models/users.dart';
 import 'package:http/http.dart' as http;
 import 'package:store_app/services/manage_http_response.dart';
+import 'package:store_app/views/screens/authentication_screens/login_screen.dart';
+import 'package:store_app/views/screens/main_screen.dart';
 
 class AuthController {
   Future<void> signUpUsers({
@@ -22,6 +24,7 @@ class AuthController {
         city: '',
         locality: '',
         password: password,
+        token: '',
       );
       http.Response response = await http.post(
         Uri.parse('$uri/api/signup'),
@@ -36,6 +39,10 @@ class AuthController {
         response: response,
         context: context,
         onSuccess: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
           showSnackBar(context, 'Account created successfully');
         },
       );
@@ -65,7 +72,14 @@ class AuthController {
       manageHttpResponse(
         response: response,
         context: context,
-        onSuccess: () {},
+        onSuccess: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+            (route) => false, // Remove all previous routes
+          );
+          showSnackBar(context, 'Loged in successfully');
+        },
       );
     } catch (e) {
       print("Error: $e");

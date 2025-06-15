@@ -14,6 +14,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late String email;
   late String fullName;
   late String password;
+  bool _isloading = false;
+  registerUser() async {
+    setState(() {
+      _isloading = true;
+    });
+    await _authController
+        .signUpUsers(
+          context: context,
+          email: email,
+          fullName: fullName,
+          password: password,
+        )
+        .whenComplete(() {
+          setState(() {
+            _isloading = false;
+          });
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,14 +206,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   SizedBox(height: 20),
                   InkWell(
-                    onTap: () async {
+                    onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        await _authController.signUpUsers(
-                          context: context,
-                          email: email,
-                          fullName: fullName,
-                          password: password,
-                        );
+                        registerUser();
                       } else {
                         print("failed");
                       }
@@ -264,16 +277,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           Center(
-                            child: Text(
-                              "Sign Up",
-                              style: GoogleFonts.getFont(
-                                'Lato',
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                            child:
+                                _isloading
+                                    ? CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                    : Text(
+                                      "Sign Up",
+                                      style: GoogleFonts.getFont(
+                                        'Lato',
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
 
-                                fontSize: 18,
-                              ),
-                            ),
+                                        fontSize: 18,
+                                      ),
+                                    ),
                           ),
                         ],
                       ),
