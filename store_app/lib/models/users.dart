@@ -55,4 +55,11 @@ class User {
       password: map['password'] as String? ?? '',
     );
   }
+
+  //fromJson: This factory constructor takes a Json String and decodes it into a map,
+  //then uses the fromMap method to create a User object.
+
+  factory User.fromJson(String source) {
+    return User.fromMap(json.decode(source) as Map<String, dynamic>);
+  }
 }
