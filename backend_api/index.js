@@ -3,20 +3,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 require('dotenv').config({ path: './cred.env' });
-
+const bannerRouter= require('./routes/banner');
+const categoryRouter = require('./routes/category');
 //Define the port number
 const PORT = 3000;
 
 //Create an instance of express
 //because it give us the starting point
-
 const app = express();
+
 //mongodb connection
 const DB = process.env.DB_PASSWORD;
 
 //middleware to register routes or to mount routes
 app.use(express.json()); 
 app.use(authRouter);
+app.use(bannerRouter);
+app.use(categoryRouter);
 
 mongoose.connect(DB).then(()=>{
     console.log("Database connected successfully");
