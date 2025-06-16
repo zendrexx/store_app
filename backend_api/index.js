@@ -5,6 +5,7 @@ const authRouter = require('./routes/auth');
 require('dotenv').config({ path: './cred.env' });
 const bannerRouter= require('./routes/banner');
 const categoryRouter = require('./routes/category');
+const subCategoryRouter = require('./routes/sub_category');
 //Define the port number
 const PORT = 3000;
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(bannerRouter);
 app.use(categoryRouter);
+app.use(subCategoryRouter);
 
 mongoose.connect(DB).then(()=>{
     console.log("Database connected successfully");
