@@ -9,8 +9,8 @@ const productReviewSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    fullname:{
-        tpe:String,
+    fullName:{
+        type:String,
         required: true,
     },
     productId:{
