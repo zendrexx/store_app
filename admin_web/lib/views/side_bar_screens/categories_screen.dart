@@ -1,3 +1,4 @@
+import 'package:admin_web/controllers/category_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class CategoriesScreen extends StatefulWidget {
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final CategoryController _categoryController = CategoryController();
   late String categoryName;
   dynamic _image;
   dynamic _bannerImage;
@@ -59,26 +61,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             padding: const EdgeInsets.all(4.0),
             child: Divider(color: Colors.grey),
           ),
-
           Row(
             children: [
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade900,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Center(
-                  child:
-                      _image != null
-                          ? Image.memory(_image!)
-                          : Text(
-                            "Category Image",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
@@ -108,50 +92,85 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    print(categoryName);
+                    _categoryController.uploadCategory(
+                      pickedImage: _image,
+                      pickedBanner: _bannerImage,
+                      name: categoryName,
+                      context: context,
+                    );
                   }
                 },
                 child: Text("Save", style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                pickImage();
-              },
-              child: Text("Pick Image"),
-            ),
-          ),
-          Divider(color: Colors.grey),
-          Container(
-            width: 150,
-            height: 150,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Center(
-              child:
-                  _bannerImage != null
-                      ? Image.memory(_bannerImage!)
-                      : Text(
-                        "Category Banner",
-                        style: TextStyle(color: Colors.white),
-                      ),
-            ),
+          Row(
+            children: [
+              SizedBox(width: 8),
+              Column(
+                children: [
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade900,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                      child:
+                          _image != null
+                              ? Image.memory(_image!)
+                              : Text(
+                                "Category Image",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        pickImage();
+                      },
+                      child: Text("Pick Image"),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 50),
+              Column(
+                children: [
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                      child:
+                          _bannerImage != null
+                              ? Image.memory(_bannerImage!)
+                              : Text(
+                                "Category Banner",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        pickBannerImage();
+                      },
+                      child: Text('Pick Image'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                pickBannerImage();
-              },
-              child: Text('Pick Image'),
-            ),
-          ),
           Divider(color: Colors.grey),
         ],
       ),
